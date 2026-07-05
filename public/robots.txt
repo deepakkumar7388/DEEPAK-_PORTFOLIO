@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://deepakkumar7388.github.io/DEEPAK-_PORTFOLIO/sitemap.xml
+Sitemap: https://deepak-portfolioc.netlify.app/sitemap.xml
