@@ -313,7 +313,7 @@ export default function About({ dark }) {
                       {[
                         { icon: '✉️', label: 'Email', value: 'dk21230621@gmail.com', href: 'mailto:dk21230621@gmail.com' },
                         { icon: '📞', label: 'Phone', value: '+91 7992054663', href: 'tel:+917992054663' },
-                        { icon: '📍', label: 'Location', value: 'Bhopal, MP, India', href: null }
+                        { icon: '📍', label: 'Location', value: 'Prayagraj / Bhopal, MP, India', href: null }
                       ].map(c => (
                         <div key={c.value} style={{
                           display: 'flex',

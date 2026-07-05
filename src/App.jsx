@@ -1,15 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Preloader from './components/Preloader'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Hero from './sections/Hero'
-import About from './sections/About'
-import Skills from './sections/Skills'
-import Projects from './sections/Projects'
-import Awards from './sections/Awards'
-import Certifications from './sections/Certifications'
-import Contact from './sections/Contact'
+
+const About = lazy(() => import('./sections/About'))
+const Skills = lazy(() => import('./sections/Skills'))
+const Projects = lazy(() => import('./sections/Projects'))
+const Awards = lazy(() => import('./sections/Awards'))
+const Certifications = lazy(() => import('./sections/Certifications'))
+const Contact = lazy(() => import('./sections/Contact'))
+
 import './index.css'
 
 import BubbleBackground from './components/BubbleBackground'
@@ -52,12 +54,14 @@ export default function App() {
               <Navbar dark={dark} setDark={setDark} />
               <main style={{ position: 'relative', zIndex: 2 }}>
                 <Hero dark={dark} />
-                <About dark={dark} />
-                <Skills dark={dark} />
-                <Projects dark={dark} />
-                <Awards dark={dark} />
-                <Certifications dark={dark} />
-                <Contact dark={dark} />
+                <Suspense fallback={null}>
+                  <About dark={dark} />
+                  <Skills dark={dark} />
+                  <Projects dark={dark} />
+                  <Awards dark={dark} />
+                  <Certifications dark={dark} />
+                  <Contact dark={dark} />
+                </Suspense>
               </main>
               <Footer dark={dark} />
             </motion.div>
