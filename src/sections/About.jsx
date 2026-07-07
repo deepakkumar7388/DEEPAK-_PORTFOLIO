@@ -60,7 +60,7 @@ export default function About({ dark }) {
                 background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)'
               }}>
                 <img
-                  src={new URL('../assets/prifile-image.jpeg', import.meta.url).href}
+                  src={new URL('../assets/profile.jpeg', import.meta.url).href}
                   alt="Deepak Kumar"
                   style={{
                     width: '100%',

@@ -196,7 +196,7 @@ export default function Hero() {
                 <div style={{ position: 'absolute', width: 220, height: 220, zIndex: 2, pointerEvents: 'none' }}>
                   <motion.div style={{ width: '100%', height: '100%', borderRadius: '50%', background: 'var(--grad)', padding: 3, boxShadow: '0 0 60px rgba(124,58,237,0.35)', animation: 'floatY 4.5s ease-in-out infinite', pointerEvents: 'auto' }}>
                     <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: 'linear-gradient(135deg, #ede9fe 0%, #dbeafe 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                      <img src={new URL('../assets/prifile-image.jpeg', import.meta.url).href} alt="Deepak Kumar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={new URL('../assets/profile.jpeg', import.meta.url).href} alt="Deepak Kumar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   </motion.div>
                   {/* Floating badges relative to this container */}
@@ -361,7 +361,7 @@ export default function Hero() {
                      display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
                    }}>
                      <img
-                       src={new URL('../assets/prifile-image.jpeg', import.meta.url).href}
+                       src={new URL('../assets/profile.jpeg', import.meta.url).href}
                        alt="Deepak Kumar"
                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                      />
