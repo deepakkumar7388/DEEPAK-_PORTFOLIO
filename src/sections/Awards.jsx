@@ -1,229 +1,195 @@
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import React, { useState, useRef } from 'react'
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import mongodbCert from '../assets/mongodb.png'
+import bgiCert from '../assets/BGI_Certificate.png'
 
-const AWARDS = [
-  {
-    emoji: '🤖', year: '2026',
-    title: 'Cisco — Apply AI: Analyze Customer Reviews',
-    org: 'Sagar Group of Institutions — SISTec / Cisco Networking Academy',
-    desc: 'Completed the Apply AI program covering practical techniques to analyze customer review data, sentiment classification, and business intelligence using AI models.',
-    badge: 'AI Certified', color: '#6366f1', // Indigo
-    prize: 'AI Analytics Graduate', prizeIcon: '🤖',
-    link: 'https://github.com/deepakkumar7388'
-  },
-  {
-    emoji: '☁️', year: '2026',
-    title: 'AWS Academy Graduate — Cloud Foundations',
-    org: 'Amazon Web Services Academy',
-    desc: '20-hour structured program covering core AWS cloud concepts: infrastructure, EC2, S3, IAM, pricing models, security architecture, and hands-on lab assessments.',
-    badge: '20 Hours', color: '#f59e0b', // Gold / Orange
-    prize: 'Cloud Graduate Badge', prizeIcon: '☁️',
-    link: 'https://github.com/deepakkumar7388'
-  },
-  {
-    emoji: '🏆', year: 'Apr 2026',
-    title: 'National Level Hackathons',
-    org: 'Bhabha University / OIST Bhopal / Cybrom Tech',
-    desc: 'Represented team "404 Found Us" as a shortlisted finalist at Hacknova 1.0 (Bhabha University, 18th Apr) and successfully competed in Oriental TechHack 2.0 (OIST Bhopal, 30th Apr) national level hackathon.',
-    badge: 'Hackathons', color: '#ec4899', // Pink
-    prize: 'Shortlisted Finalist & Competitor', prizeIcon: '🏆',
-    link: 'https://github.com/deepakkumar7388'
-  },
-  {
-    emoji: '🌟', year: '2026',
-    title: 'Sagar Euphoria 2026 — Branch Master',
-    org: 'SISTec Ratibad Campus, Bhopal',
-    desc: 'Actively participated in the Branch Master competition at the Sagar Euphoria 2026 college fest, demonstrating technical leadership and domain expertise.',
-    badge: 'College Fest', color: '#10b981', // Emerald Green
-    prize: 'Branch Master Nominee', prizeIcon: '🌟',
-    link: 'https://github.com/deepakkumar7388'
-  },
-  {
-    emoji: '🚀', year: '2026',
-    title: 'SISTec Digital Pass — Live Production Deployment',
-    org: 'SISTec Bhopal',
-    desc: 'Designed, developed, and deployed a full-stack RBAC-based digital pass management system for the SISTec campus, serving 1000+ students and faculty daily.',
-    badge: 'Deployed', color: '#0ea5e9', // Cyan / Sky Blue
-    prize: 'Live Campus Deployment', prizeIcon: '🚀',
-    link: 'https://github.com/deepakkumar7388'
-  },
-  {
-    emoji: '🌱', year: '2025',
-    title: 'AgroTech AI — Best AI Project Award',
-    org: 'SISTec College Tech Fest',
-    desc: 'AgroTech AI, a satellite NDVI-based crop health monitoring and disease classification platform, was recognized as the Best AI Project at the SISTec Tech Fest 2025.',
-    badge: 'Best AI Project', color: '#3b82f6', // Sapphire Blue
-    prize: 'Best AI Project Award', prizeIcon: '🌱',
-    link: 'https://github.com/deepakkumar7388'
-  },
+/* ── Highlight items for the scrolling ribbon ── */
+const HIGHLIGHTS = [
+  { emoji: '🍃', title: 'MongoDB Immersion Day', sub: 'Real-world Data & AI', color: '#10b981' },
+  { emoji: '🏆', title: 'National Hackathon Finalist', sub: 'Hacknova 1.0 & Oriental TechHack 2.0', color: '#ec4899' },
+  { emoji: '☁️', title: 'AWS Academy Graduate', sub: 'Cloud Foundations — 20 Hours', color: '#f59e0b' },
+  { emoji: '🚀', title: 'Live Campus Deployment', sub: 'SISTec Digital Pass — 1000+ Users', color: '#10b981' },
+  { emoji: '🌱', title: 'AI Project Finalist', sub: 'AgroTech AI — BGI Hackathon', color: '#3b82f6' },
 ]
 
-function AwardCard({ a, i }) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+/* ── All credentials (merged awards + certs) ── */
+const CREDENTIALS = [
+  { emoji: '🍃', title: 'Industry Immersion Day', sub: 'Real-world Data & AI', issuer: 'MongoDB & ICT Academy', year: 'Jul 2026', color: '#10b981', image: mongodbCert },
+  { emoji: '🌐', title: 'Cisco CCNA Complete Suite', sub: 'All 3 Core Networking Modules', issuer: 'Cisco Networking Academy', year: 'May–Jun 2026', color: '#3b82f6' },
+  { emoji: '🤖', title: 'Cisco — Apply AI', sub: 'Analyze Customer Reviews', issuer: 'Cisco Networking Academy', year: '2026', color: '#8b5cf6' },
+  { emoji: '☁️', title: 'AWS Academy Graduate', sub: 'Cloud Foundations', issuer: 'Amazon Web Services', year: '2026', color: '#f59e0b' },
+  { emoji: '🏆', title: 'National Hackathons', sub: 'Hacknova 1.0 & TechHack 2.0', issuer: 'Bhabha University / OIST', year: 'Apr 2026', color: '#ec4899', image: bgiCert },
+  { emoji: '🌟', title: 'Sagar Euphoria 2026', sub: 'Branch Master Competition', issuer: 'SISTec Ratibad Campus', year: '2026', color: '#10b981' },
+  { emoji: '🚀', title: 'SISTec Digital Pass', sub: 'Live Production Deployment', issuer: 'SISTec Bhopal', year: '2026', color: '#0ea5e9' },
+  { emoji: '🌱', title: 'AgroTech AI — Finalist', sub: 'Top AI Project Finalist', issuer: 'BGI Hackathon', year: '2025', color: '#3b82f6' },
+  { emoji: '🐍', title: 'Cisco Python Essentials', sub: 'Python Essentials 1 & 2', issuer: 'Cisco Networking Academy', year: '2024', color: '#06b6d4' },
+  { emoji: '🔒', title: 'Cisco Cybersecurity', sub: 'Intro to Cybersecurity', issuer: 'Cisco Networking Academy', year: '2024', color: '#3b82f6' },
+]
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-30px' },
+  transition: { duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] },
+})
+
+function HighlightCard({ h }) {
+  return (
+    <div style={{
+      flexShrink: 0, width: 300, padding: '22px 24px',
+      background: 'var(--bg-card)', border: '1px solid var(--border)',
+      borderTop: `3px solid ${h.color}`,
+      borderRadius: 18, backdropFilter: 'blur(20px)',
+      display: 'flex', alignItems: 'center', gap: 14,
+      transition: 'border-color 0.2s, box-shadow 0.2s',
+    }}
+    onMouseEnter={e => { e.currentTarget.style.borderColor = h.color; e.currentTarget.style.boxShadow = `0 8px 28px ${h.color}15` }}
+    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none' }}
+    >
+      <div style={{
+        width: 48, height: 48, borderRadius: 13, fontSize: 22, flexShrink: 0,
+        background: `${h.color}12`, border: `1px solid ${h.color}25`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>{h.emoji}</div>
+      <div>
+        <h4 style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: '0.88rem', color: 'var(--text)', lineHeight: 1.25, marginBottom: 3 }}>{h.title}</h4>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: h.color, fontWeight: 600 }}>{h.sub}</p>
+      </div>
+    </div>
+  )
+}
+
+function CredentialCard({ c, i }) {
   const [hovered, setHovered] = useState(false)
+  const cardRef = useRef(null)
+
+  // 3D Tilt Values
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const springConfig = { damping: 30, stiffness: 300, mass: 0.5 }
+  const springX = useSpring(mouseX, springConfig)
+  const springY = useSpring(mouseY, springConfig)
+
+  const rotateX = useTransform(springY, [-0.5, 0.5], [8, -8])
+  const rotateY = useTransform(springX, [-0.5, 0.5], [-8, 8])
 
   const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left - rect.width / 2
-    const y = e.clientY - rect.top - rect.height / 2
-    // Max rotation 8 degrees for water floating boat feel
-    const rX = -(y / (rect.height / 2)) * 8
-    const rY = (x / (rect.width / 2)) * 8
-    setTilt({ x: rX, y: rY })
-  }
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    cardRef.current.style.setProperty('--mouse-x', `${x}px`)
+    cardRef.current.style.setProperty('--mouse-y', `${y}px`)
 
-  const handleMouseEnter = () => {
-    setHovered(true)
+    const pctX = (x / rect.width) - 0.5
+    const pctY = (y / rect.height) - 0.5
+    mouseX.set(pctX)
+    mouseY.set(pctY)
   }
 
   const handleMouseLeave = () => {
     setHovered(false)
-    setTilt({ x: 0, y: 0 })
+    mouseX.set(0)
+    mouseY.set(0)
   }
 
+  const CardComponent = c.image ? motion.a : motion.div
+  const extraProps = c.image ? { href: c.image, target: '_blank', rel: 'noopener noreferrer' } : {}
+
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -24 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: '-30px' }}
-      transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      style={{ position: 'relative', width: '100%' }}
+    <CardComponent
+      {...extraProps}
+      ref={cardRef}
+      initial={{ opacity: 0, y: 18, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: '-20px' }}
+      transition={{ duration: 0.4, delay: i * 0.05 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+      className="project-card-gh"
+      style={{
+        rotateX,
+        rotateY,
+        transformPerspective: 1200,
+        scale: hovered ? 1.02 : 1,
+        background: 'var(--bg-card)',
+        border: `1.5px solid ${hovered ? c.color + '40' : 'var(--border)'}`,
+        borderTop: `3px solid ${c.color}`,
+        borderRadius: 16, padding: '22px 20px',
+        boxShadow: hovered ? `0 10px 30px ${c.color}12` : 'var(--shadow-sm)',
+        transition: 'border 0.3s ease, box-shadow 0.3s ease, background 0.3s ease',
+        transformStyle: 'preserve-3d',
+        display: 'flex', flexDirection: 'column', height: '100%',
+        ...(c.image ? { textDecoration: 'none', cursor: 'pointer' } : {})
+      }}
     >
-      {/* Dot */}
-      <div style={{
-        position: 'absolute', left: -45, top: 20,
-        width: 20, height: 20, borderRadius: '50%',
-        background: a.color,
-        boxShadow: `0 0 0 4px ${a.color}22, 0 0 0 8px ${a.color}0e`,
-        zIndex: 2
-      }} />
-
-      {/* Card Body */}
-      <div
-        onMouseMove={handleMouseMove}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          background: 'var(--bg-card)',
-          borderLeft: '1.5px solid',
-          borderRight: '1.5px solid',
-          borderBottom: '1.5px solid',
-          borderTop: `5px solid ${a.color}`,
-          borderColor: hovered ? a.color : 'var(--border)',
-          borderRadius: 18,
-          padding: '24px 24px 20px',
-          boxShadow: hovered ? `0 14px 40px ${a.color}22` : `0 6px 20px rgba(0, 0, 0, 0.05)`,
-          transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(${hovered ? 1.015 : 1}, ${hovered ? 1.015 : 1}, 1)`,
-          transition: hovered ? 'border-color 0.25s, box-shadow 0.25s' : 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-          transformStyle: 'preserve-3d',
-          cursor: 'default',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'relative',
-          overflow: 'hidden',
-          width: '100%'
-        }}
-      >
-        {/* Tinted background overlay */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
         <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: `linear-gradient(135deg, ${a.color}03 0%, transparent 100%)`,
-          pointerEvents: 'none',
-          zIndex: 0
-        }} />
-
-        <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-          <div style={{ display: 'flex', gap: 18, width: '100%', marginBottom: 16 }}>
-            <div style={{
-              width: 50, height: 50, borderRadius: 13, flexShrink: 0,
-              background: `${a.color}12`, border: `1px solid ${a.color}25`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
-              boxShadow: `0 4px 12px ${a.color}0a`
-            }}>{a.emoji}</div>
-
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 8, marginBottom: 5 }}>
-                <h4 style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: '0.96rem', color: 'var(--text)', lineHeight: 1.3 }}>{a.title}</h4>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
-                  <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700,
-                    padding: '3px 9px', borderRadius: 99,
-                    background: `${a.color}12`, border: `1px solid ${a.color}30`, color: a.color,
-                  }}>{a.badge}</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-3)' }}>{a.year}</span>
-                </div>
-              </div>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--text-3)', marginBottom: 8 }}>{a.org}</p>
-              <p style={{ color: 'var(--text-2)', fontSize: '0.875rem', lineHeight: 1.7 }}>{a.desc}</p>
-            </div>
-          </div>
-
-          {/* Bottom Row: Prize money & View Project link */}
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'center', 
-            borderTop: '1px solid var(--border)', 
-            paddingTop: 14, 
-            marginTop: 14 
-          }}>
-            <span style={{ 
-              color: a.color, 
-              fontSize: 12, 
-              fontWeight: 700, 
-              fontFamily: 'var(--font-mono)', 
-              display: 'inline-flex', 
-              alignItems: 'center', 
-              gap: 6 
-            }}>
-              <span>{a.prizeIcon}</span>
-              <span>{a.prize}</span>
-            </span>
-            <a href={a.link} target="_blank" rel="noreferrer" style={{ 
-              color: a.color, 
-              fontSize: 12.5, 
-              fontWeight: 700, 
-              fontFamily: 'var(--font-head)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 4,
-              textDecoration: 'none'
-            }}
-            onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
-            onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
-            >
-              View Project <span>→</span>
-            </a>
-          </div>
-        </div>
+          width: 40, height: 40, borderRadius: 11, fontSize: 18,
+          background: `${c.color}12`, border: `1px solid ${c.color}25`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>{c.emoji}</div>
+        <span style={{
+          fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700,
+          color: c.color, background: `${c.color}10`, border: `1px solid ${c.color}20`,
+          padding: '3px 9px', borderRadius: 99,
+        }}>{c.year}</span>
       </div>
-    </motion.div>
+      <h4 style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--text)', lineHeight: 1.3, marginBottom: 3 }}>{c.title}</h4>
+      <p style={{ color: c.color, fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, marginBottom: 10 }}>{c.sub}</p>
+      <p style={{ color: 'var(--text-3)', fontSize: 11, fontFamily: 'var(--font-mono)', marginTop: 'auto', paddingTop: 12, borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        {c.issuer}
+        {c.image && <span style={{ fontSize: 10, color: c.color, fontWeight: 'bold' }}>View ↗</span>}
+      </p>
+    </CardComponent>
   )
 }
 
-export default function Awards() {
+export default function Achievements() {
   return (
-    <section id="awards" className="section" style={{ background: 'var(--bg-alt)' }}>
+    <section id="achievements" className="section" style={{ background: 'var(--bg-alt)', position: 'relative', overflow: 'hidden' }}>
       <div className="aurora a-violet" style={{ width: 420, height: 420, top: '5%', right: '-5%', opacity: 0.35 }} />
-      <div className="aurora a-blue"   style={{ width: 350, height: 350, bottom: '5%', left: '-5%', opacity: 0.3, animationDelay: '4s' }} />
+      <div className="aurora a-blue" style={{ width: 350, height: 350, bottom: '5%', left: '-5%', opacity: 0.3, animationDelay: '4s' }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-
-        <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <p className="kicker">Awards & Achievements</p>
-          <h2 className="section-h2">Recognition &amp; <span className="gradient-text">Milestones</span></h2>
-          <p className="section-lead">Certifications, hackathon participation, live deployments, and project recognitions.</p>
+        <motion.div {...fadeUp(0)}>
+          <p className="kicker">04 / Achievements</p>
+          <h2 className="section-h2">Recognition & <span className="gradient-text">Credentials</span></h2>
+          <p className="section-lead">Certifications, hackathon wins, live deployments, and project awards that define my journey.</p>
         </motion.div>
 
-        {/* Timeline */}
-        <div style={{ position: 'relative' }}>
-          <div className="tl-line" />
-          <div style={{ paddingLeft: 52, display: 'flex', flexDirection: 'column', gap: 24 }}>
-            {AWARDS.map((a, i) => (
-              <AwardCard key={i} a={a} i={i} />
-            ))}
+        {/* ── Scrolling Highlight Ribbon ── */}
+        <motion.div {...fadeUp(0.1)} style={{ marginBottom: 48 }}>
+          <div style={{
+            overflow: 'hidden',
+            maskImage: 'linear-gradient(90deg, transparent, black 5%, black 95%, transparent)',
+            WebkitMaskImage: 'linear-gradient(90deg, transparent, black 5%, black 95%, transparent)',
+          }}>
+            <div className="marquee-track" style={{ gap: 16, animationDuration: '25s' }}>
+              {[...HIGHLIGHTS, ...HIGHLIGHTS].map((h, i) => (
+                <HighlightCard key={`${h.title}-${i}`} h={h} />
+              ))}
+            </div>
           </div>
+        </motion.div>
+
+        {/* ── Credential Grid ── */}
+        <motion.div {...fadeUp(0.15)}>
+          <p style={{
+            fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-3)',
+            marginBottom: 20, textTransform: 'uppercase', letterSpacing: '0.14em',
+          }}>All Certifications & Awards</p>
+        </motion.div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+          gap: 14,
+        }}>
+          {CREDENTIALS.map((c, i) => (
+            <CredentialCard key={i} c={c} i={i} />
+          ))}
         </div>
       </div>
     </section>

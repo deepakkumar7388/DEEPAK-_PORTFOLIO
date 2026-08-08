@@ -8,8 +8,7 @@ import Hero from './sections/Hero'
 const About = lazy(() => import('./sections/About'))
 const Skills = lazy(() => import('./sections/Skills'))
 const Projects = lazy(() => import('./sections/Projects'))
-const Awards = lazy(() => import('./sections/Awards'))
-const Certifications = lazy(() => import('./sections/Certifications'))
+const Achievements = lazy(() => import('./sections/Awards'))
 const Contact = lazy(() => import('./sections/Contact'))
 
 import './index.css'
@@ -58,8 +57,7 @@ export default function App() {
                   <About dark={dark} />
                   <Skills dark={dark} />
                   <Projects dark={dark} />
-                  <Awards dark={dark} />
-                  <Certifications dark={dark} />
+                  <Achievements dark={dark} />
                   <Contact dark={dark} />
                 </Suspense>
               </main>

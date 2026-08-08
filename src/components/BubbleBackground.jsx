@@ -47,7 +47,7 @@ export default function BubbleBackground() {
       draw() {
         // Adjust color dynamically according to theme color variables
         const theme = document.documentElement.getAttribute('data-theme')
-        const color = theme === 'dark' ? '167, 139, 250' : '124, 58, 237'
+        const color = theme === 'dark' ? '240, 160, 80' : '192, 112, 40'
         ctx.beginPath()
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
         ctx.fillStyle = `rgba(${color}, ${this.opacity})`

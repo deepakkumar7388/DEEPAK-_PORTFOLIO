@@ -72,7 +72,7 @@ export default function CustomCursor() {
         width: clicked ? 26 : 38,
         height: clicked ? 26 : 38,
         border: '1.5px solid var(--accent)',
-        background: clicked ? 'rgba(99, 102, 241, 0.15)' : 'transparent',
+        background: clicked ? 'rgba(240, 160, 80, 0.15)' : 'transparent',
         borderRadius: '50%',
         transform: 'translate(-50%, -50%)',
         pointerEvents: 'none',

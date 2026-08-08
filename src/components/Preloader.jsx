@@ -58,7 +58,7 @@ export default function Preloader({ onComplete }) {
               background: 'var(--grad)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontFamily: 'var(--font-head)', fontWeight: 800, fontSize: 24, color: '#fff',
-              boxShadow: '0 8px 30px rgba(124,58,237,0.2)',
+              boxShadow: '0 8px 30px rgba(192,112,40,0.2)',
             }}
           >DK</motion.div>
 

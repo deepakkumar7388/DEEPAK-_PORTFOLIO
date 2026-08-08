@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTransitionTrigger } from './TransitionProvider'
 
 const NAV = [
-  { label: 'Home',    id: 'hero' },
-  { label: 'About',   id: 'about' },
-  { label: 'Skills',  id: 'skills' },
-  { label: 'Projects',id: 'projects' },
-  { label: 'Awards',  id: 'awards' },
-  { label: 'Certs',   id: 'certifications' },
-  { label: 'Contact', id: 'contact' },
+  { label: 'Home',        id: 'hero' },
+  { label: 'About',       id: 'about' },
+  { label: 'Skills',      id: 'skills' },
+  { label: 'Projects',    id: 'projects' },
+  { label: 'Achievements',id: 'achievements' },
+  { label: 'Contact',     id: 'contact' },
 ]
 
 function ScrollBar() {
@@ -55,6 +54,8 @@ export default function Navbar({ dark, setDark }) {
   const [active, setActive]     = useState('hero')
   const [open, setOpen]         = useState(false)
   const transitionTrigger       = useTransitionTrigger()
+  const pillRef                 = useRef(null)
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 })
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40)
@@ -65,11 +66,45 @@ export default function Navbar({ dark, setDark }) {
   useEffect(() => {
     const obs = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id) }),
-      { threshold: 0.3 }
+      { threshold: 0.25 }
     )
-    NAV.forEach(l => { const el = document.getElementById(l.id); if (el) obs.observe(el) })
-    return () => obs.disconnect()
+    
+    const observed = new Set()
+    const checkElements = () => {
+      NAV.forEach(l => {
+        if (!observed.has(l.id)) {
+          const el = document.getElementById(l.id)
+          if (el) {
+            obs.observe(el)
+            observed.add(l.id)
+          }
+        }
+      })
+      if (observed.size === NAV.length) clearInterval(interval)
+    }
+    
+    const interval = setInterval(checkElements, 500)
+    checkElements()
+    
+    return () => {
+      clearInterval(interval)
+      obs.disconnect()
+    }
   }, [])
+
+  // Animate sliding indicator to active tab
+  useEffect(() => {
+    if (!pillRef.current) return
+    const activeBtn = pillRef.current.querySelector(`[data-nav="${active}"]`)
+    if (activeBtn) {
+      const pillRect = pillRef.current.getBoundingClientRect()
+      const btnRect = activeBtn.getBoundingClientRect()
+      setIndicator({
+        left: btnRect.left - pillRect.left,
+        width: btnRect.width,
+      })
+    }
+  }, [active])
 
   const go = id => {
     setOpen(false)
@@ -87,44 +122,74 @@ export default function Navbar({ dark, setDark }) {
       <ScrollBar />
       <BackToTop />
       <motion.nav
-        initial={{ y: -72, opacity: 0 }}
+        initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.16,1,0.3,1], delay: 0.1 }}
+        transition={{ duration: 0.7, ease: [0.16,1,0.3,1], delay: 0.1 }}
         style={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000, height: 64,
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
+          height: 68,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '0 32px',
-          background: scrolled ? 'var(--nav-bg)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(24px)' : 'none',
-          borderBottom: scrolled ? '1px solid var(--nav-border)' : '1px solid transparent',
-          transition: 'all 0.3s ease',
+          padding: '0 28px',
         }}
       >
-        {/* Logo */}
-        <button onClick={() => go('hero')} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {/* Logo — left side */}
+        <button onClick={() => go('hero')} style={{ display: 'flex', alignItems: 'center', gap: 10, zIndex: 10 }}>
           <motion.div
             whileHover={{ rotate: 5, scale: 1.05 }}
             style={{
-              width: 38, height: 38, borderRadius: 11, background: 'var(--grad)',
+              width: 40, height: 40, borderRadius: 12, background: 'var(--grad)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 14, color: '#fff',
-              boxShadow: '0 4px 14px rgba(124,58,237,0.3)',
+              boxShadow: '0 4px 14px rgba(192,112,40,0.3)',
             }}
           >DK</motion.div>
-          <span style={{ fontFamily: 'var(--font-head)', fontWeight: 800, fontSize: '1.05rem', color: 'var(--text)' }}>
-            Deepak Kumar
+          <span className="hide-mobile" style={{ fontFamily: 'var(--font-head)', fontWeight: 800, fontSize: '1.05rem', color: 'var(--text)' }}>
+            Deepak<span style={{ color: 'var(--accent)' }}> Kumar</span>
           </span>
         </button>
 
-        {/* Desktop nav */}
-        <div className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        {/* Center Floating Pill Nav — desktop only */}
+        <div
+          ref={pillRef}
+          className="hide-mobile"
+          style={{
+            position: 'absolute',
+            left: '50%', transform: 'translateX(-50%)',
+            display: 'flex', alignItems: 'center', gap: 2,
+            padding: '5px 6px',
+            borderRadius: 50,
+            background: scrolled ? 'var(--nav-bg)' : 'rgba(255,255,255,0.03)',
+            backdropFilter: scrolled ? 'blur(28px) saturate(1.4)' : 'blur(12px)',
+            border: `1px solid ${scrolled ? 'var(--nav-border)' : 'rgba(255,255,255,0.04)'}`,
+            boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.08)' : 'none',
+            transition: 'all 0.4s ease',
+          }}
+        >
+          {/* Animated sliding indicator */}
+          <motion.div
+            animate={{ left: indicator.left, width: indicator.width }}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+            style={{
+              position: 'absolute',
+              top: 5, height: 'calc(100% - 10px)',
+              borderRadius: 50,
+              background: 'var(--grad-soft)',
+              border: '1px solid var(--grad-border)',
+              pointerEvents: 'none',
+            }}
+          />
           {NAV.map(l => (
-            <button key={l.id} onClick={() => go(l.id)}
+            <button
+              key={l.id}
+              data-nav={l.id}
+              onClick={() => go(l.id)}
               style={{
-                padding: '6px 14px', borderRadius: 8, fontSize: 13.5, fontWeight: 500,
+                padding: '7px 16px', borderRadius: 50, fontSize: 13, fontWeight: 500,
                 color: active === l.id ? 'var(--accent)' : 'var(--text-2)',
-                background: active === l.id ? 'var(--grad-soft)' : 'transparent',
-                transition: 'all 0.18s',
+                background: 'transparent',
+                transition: 'color 0.2s',
+                position: 'relative', zIndex: 2,
+                whiteSpace: 'nowrap',
               }}
               onMouseEnter={e => { if (active !== l.id) e.currentTarget.style.color = 'var(--text)' }}
               onMouseLeave={e => { if (active !== l.id) e.currentTarget.style.color = 'var(--text-2)' }}
@@ -132,8 +197,8 @@ export default function Navbar({ dark, setDark }) {
           ))}
         </div>
 
-        {/* Right side */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {/* Right side — theme + CTA */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, zIndex: 10 }}>
           <motion.button
             whileHover={{ scale: 1.1, rotate: 15 }} whileTap={{ scale: 0.9 }}
             className="icon-btn"
@@ -148,7 +213,7 @@ export default function Navbar({ dark, setDark }) {
           <motion.button
             onClick={() => go('contact')}
             className="btn-grad hide-mobile"
-            style={{ padding: '8px 20px', fontSize: 13 }}
+            style={{ padding: '8px 22px', fontSize: 13 }}
             whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
           >Hire Me</motion.button>
           <button id="hamburger"
@@ -173,10 +238,10 @@ export default function Navbar({ dark, setDark }) {
             initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
             transition={{ duration: 0.28, ease: [0.16,1,0.3,1] }}
             style={{
-              position: 'fixed', top: 64, right: 0, bottom: 0, width: 260,
+              position: 'fixed', top: 68, right: 0, bottom: 0, width: 280,
               background: 'var(--nav-bg)', backdropFilter: 'blur(28px)',
               borderLeft: '1px solid var(--nav-border)',
-              zIndex: 999, padding: '20px 14px',
+              zIndex: 999, padding: '24px 18px',
               display: 'flex', flexDirection: 'column', gap: 4,
             }}
           >
@@ -185,10 +250,12 @@ export default function Navbar({ dark, setDark }) {
                 initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.04 }}
                 style={{
-                  padding: '11px 14px', borderRadius: 10, textAlign: 'left',
+                  padding: '13px 16px', borderRadius: 12, textAlign: 'left',
                   color: active === l.id ? 'var(--accent)' : 'var(--text-2)',
                   background: active === l.id ? 'var(--grad-soft)' : 'transparent',
-                  fontSize: 15, fontWeight: 500,
+                  border: active === l.id ? '1px solid var(--grad-border)' : '1px solid transparent',
+                  fontSize: 15, fontWeight: 600,
+                  fontFamily: 'var(--font-head)',
                 }}
               >{l.label}</motion.button>
             ))}
