@@ -65,9 +65,26 @@ export default function Contact() {
   const onSubmit = async e => {
     e.preventDefault()
     setStatus('sending')
-    await new Promise(r => setTimeout(r, 1500))
-    setStatus('sent')
-    setTimeout(() => { setStatus('idle'); setForm({ name: '', email: '', subject: '', message: '' }) }, 4000)
+    try {
+      const formData = new FormData()
+      formData.append('form-name', 'contact')
+      formData.append('name', form.name)
+      formData.append('email', form.email)
+      formData.append('subject', form.subject)
+      formData.append('message', form.message)
+
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Accept': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
+      setStatus('sent')
+      setTimeout(() => { setStatus('idle'); setForm({ name: '', email: '', subject: '', message: '' }) }, 4000)
+    } catch (error) {
+      console.error(error)
+      setStatus('idle')
+      alert("Oops! Something went wrong. Please try again.")
+    }
   }
 
   return (
@@ -170,11 +187,11 @@ export default function Contact() {
 
             <form onSubmit={onSubmit}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 14px' }}>
-                <FloatingInput label="Your Name" name="name" placeholder="Deepak Kumar" value={form.name} onChange={onChange} />
-                <FloatingInput label="Email" name="email" type="email" placeholder="you@email.com" value={form.email} onChange={onChange} />
+                <FloatingInput label="Your Name" name="name" value={form.name} onChange={onChange} />
+                <FloatingInput label="Email" name="email" type="email" value={form.email} onChange={onChange} />
               </div>
-              <FloatingInput label="Subject" name="subject" placeholder="Internship inquiry / Project idea" value={form.subject} onChange={onChange} />
-              <FloatingTextarea label="Message" name="message" placeholder="Tell me about your project or opportunity..." value={form.message} onChange={onChange} />
+              <FloatingInput label="Subject" name="subject" value={form.subject} onChange={onChange} />
+              <FloatingTextarea label="Message" name="message" value={form.message} onChange={onChange} />
 
               <motion.button type="submit" disabled={status !== 'idle'}
                 whileHover={status === 'idle' ? { scale: 1.02 } : {}}

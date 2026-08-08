@@ -8,7 +8,7 @@ const PROJECTS = [
     badge: '🚀 LIVE SYSTEM', badgeColor: '#10b981', year: '2025–26', emoji: '🏫', featured: true,
     desc: 'Smart campus gate-pass and visitor management system with 5-tier RBAC hierarchy and real-time entry/exit tracking. Built 30+ REST APIs managing 12 MongoDB collections.',
     highlights: ['5-tier Role-Based Access Control (RBAC)', 'Real-time sync using Flask-SocketIO & Redis', 'Geofencing-based location validation', '30+ REST APIs for auth and authorization'],
-    github: 'https://github.com/deepakkumar7388',
+    live: 'https://yogeshsaini7172.github.io/digitalPassWeb/',
   },
   {
     id: 2, title: 'Chaudhary Health Care', tagline: 'Hospital Management System',
@@ -16,7 +16,7 @@ const PROJECTS = [
     badge: '🏥 HMS', badgeColor: '#0ea5e9', year: '2025', emoji: '🏥',
     desc: 'Responsive Hospital Management System with 4-tier RBAC hierarchy to streamline patient admissions, bed management, and discharge workflows.',
     highlights: ['4-tier RBAC hospital workflows', '40+ REST APIs with 7 MongoDB collections', 'Real-time updates using Socket.IO & Firebase', 'PWA with Android TWA wrapper'],
-    github: 'https://github.com/deepakkumar7388',
+    live: 'https://deepakkumar7388.github.io/Chaudhary_Health_Care-Center-Koraon-Pryagraj/',
   },
   {
     id: 3, title: 'Edutrack AI', tagline: 'AI-Powered Learning Management System',
@@ -173,10 +173,10 @@ function ProjectCard({ p, index }) {
           </a>
         )}
         {p.live && (
-          <a href={p.live} target="_blank" rel="noreferrer" className="btn-ghost"
+          <a href={p.live} target="_blank" rel="noreferrer" className="btn-grad"
             style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 20px', fontSize: 13 }}>
-            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" /></svg>
-            Live Demo
+            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            Open ↗
           </a>
         )}
       </div>

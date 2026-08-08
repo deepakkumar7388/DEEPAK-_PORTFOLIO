@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Deepak Kumar | Software Engineer | SISTec Bhopal</title>
     <meta name="description" content="Deepak Kumar — B.Tech Computer Science student at SISTec Bhopal building production-grade full-stack web applications and applied ML platforms (AgroTech AI, Edutrack AI)." />
-    <meta name="keywords" content="Deepak Kumar, Deepak Kumar SISTec, Deepak Kumar Bhopal, Deepak Kumar Portfolio, Deepak Kumar Software Engineer, Deepak Kumar Developer, AgroTech AI, Edutrack AI, SISTec Digital Pass, full-stack, machine learning" />
+    <meta name="keywords" content="Deepak Kumar, Deepak Kumar SISTec, Deepak Kumar SPIC, SPIC College, Sardar Patel Inter College Prayagraj, Deepak Kumar Bhopal, Deepak Kumar Portfolio, Software Engineer, Developer, AgroTech AI, Edutrack AI" />
     <meta name="author" content="Deepak Kumar" />
     <meta property="og:title" content="Deepak Kumar — Software Engineer | SISTec Bhopal" />
     <meta property="og:description" content="B.Tech Computer Science student at SISTec Bhopal building production-grade web systems and applied ML platforms." />
@@ -23,10 +23,21 @@
       "@type": "Person",
       "name": "Deepak Kumar",
       "url": "https://deepak-portfolioc.netlify.app/",
-      "alumniOf": {
-        "@type": "EducationalOrganization",
-        "name": "Sagar Institute of Science & Technology (SISTec), Bhopal"
-      },
+      "alumniOf": [
+        {
+          "@type": "EducationalOrganization",
+          "name": "Sagar Institute of Science & Technology (SISTec), Bhopal"
+        },
+        {
+          "@type": "EducationalOrganization",
+          "name": "Sagar Private Industrial Training College (SPIC)",
+          "url": "https://spic-college.netlify.app/"
+        },
+        {
+          "@type": "EducationalOrganization",
+          "name": "Sardar Patel Inter College, Prayagraj"
+        }
+      ],
       "jobTitle": "Software Developer & ML Engineer",
       "knowsAbout": ["Web Development", "Machine Learning", "Software Engineering", "React", "Flask", "Kotlin", "Flutter"],
       "sameAs": [
@@ -37,6 +48,13 @@
     </script>
   </head>
   <body>
+    <!-- A little help for the Netlify post-processing bots -->
+    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="subject" />
+      <textarea name="message"></textarea>
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

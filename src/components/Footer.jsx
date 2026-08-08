@@ -19,7 +19,7 @@ export default function Footer() {
   const go = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <footer style={{
+    <footer data-theme="dark" style={{
       background: 'var(--bg-alt)',
       borderTop: '1px solid var(--border)',
       paddingTop: 56, paddingBottom: 28,
@@ -120,9 +120,7 @@ export default function Footer() {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12,
         }}>
           <p style={{ color: 'var(--text-3)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>
-            © {new Date().getFullYear()} Deepak Kumar. Built with{' '}
-            <span style={{ color: 'var(--accent)' }}>React</span> +{' '}
-            <span style={{ color: 'var(--accent)' }}>Three.js</span>
+            © {new Date().getFullYear()} Deepak Kumar.
           </p>
           <p style={{ color: 'var(--text-3)', fontSize: '0.78rem', fontFamily: 'var(--font-mono)', display: 'flex', alignItems: 'center', gap: 5 }}>
             Made with <motion.span animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 0.7, repeat: Infinity, repeatDelay: 1 }} style={{ display: 'inline-block' }}>❤️</motion.span> in India

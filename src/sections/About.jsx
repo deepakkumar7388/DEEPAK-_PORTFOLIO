@@ -96,7 +96,7 @@ export default function About() {
           <Tile delay={0.05} style={{ minHeight: 200 }}>
             <TileHeader emoji="📖" label="My Story" />
             <p style={{ color: 'var(--text-2)', lineHeight: 1.85, fontSize: '0.95rem', marginBottom: 14 }}>
-              I'm <strong style={{ color: 'var(--text)' }}>Deepak Kumar</strong>, a Full-Stack Software Engineer and Computer Science student in my 3rd year of B.Tech CSE at <strong style={{ color: 'var(--text)' }}>SISTec Bhopal</strong>.
+              I'm <strong style={{ color: 'var(--text)' }}>Deepak Kumar</strong>, a Full-Stack Software Engineer and Computer Science student in my 3rd year of B.Tech CSE at <strong style={{ color: 'var(--text)' }}><a href="https://www.sistec.ac.in/" target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'underline', textDecorationColor: 'var(--accent)', textUnderlineOffset: '4px' }}>SISTec Bhopal</a></strong>.
             </p>
             <p style={{ color: 'var(--text-2)', lineHeight: 1.85, fontSize: '0.95rem' }}>
               I specialise in building scalable web applications, robust backend services, and intelligent ML systems. My engineering work is fueled by curiosity and practical experience from development and hackathons.
@@ -144,12 +144,14 @@ export default function About() {
               <div style={{ paddingLeft: 16, borderLeft: '2px solid var(--accent)' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--accent)', fontWeight: 700, marginBottom: 3 }}>2023 — 2027 (Ongoing)</div>
                 <h4 style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: '0.95rem', color: 'var(--text)', marginBottom: 2 }}>B.Tech — Computer Science &amp; Engineering</h4>
-                <p style={{ fontSize: 12.5, color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>SISTec Bhopal</p>
+                <p style={{ fontSize: 12.5, color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}><a href="https://www.sistec.ac.in/" target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'underline', textDecorationColor: 'var(--text-3)', textUnderlineOffset: '3px' }}>SISTec Bhopal</a></p>
               </div>
               <div style={{ paddingLeft: 16, borderLeft: '2px solid var(--accent-b)' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--accent-b)', fontWeight: 700, marginBottom: 3 }}>2020 — 2022</div>
                 <h4 style={{ fontFamily: 'var(--font-head)', fontWeight: 700, fontSize: '0.95rem', color: 'var(--text)', marginBottom: 2 }}>
-                  Sardar Patel Inter College, Prayagraj
+                  <a href="https://spic-college.netlify.app/" target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'underline', textDecorationColor: 'var(--accent-b)', textUnderlineOffset: '4px' }}>
+                    Sardar Patel Inter College, Prayagraj
+                  </a>
                   <span style={{ fontWeight: 500, color: 'var(--text-2)', fontSize: '0.85rem', marginLeft: 6 }}>(X &amp; XII)</span>
                 </h4>
                 <p style={{ fontSize: 12.5, color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>UP Board — Science</p>
