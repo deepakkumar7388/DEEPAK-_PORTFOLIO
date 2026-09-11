@@ -22,7 +22,7 @@ export default function Hero() {
     return () => window.removeEventListener('resize', fn)
   }, [])
 
-  const profileUrl = new URL('../assets/profile.jpeg', import.meta.url).href
+  const profileUrl = new URL('../assets/profile-popout.png', import.meta.url).href
 
   return (
     <section id="hero" style={{
@@ -132,7 +132,7 @@ export default function Hero() {
               <motion.a href="#contact"
                 onClick={e => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }) }}
                 className="btn-ghost" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
                 Hire Me
               </motion.a>
             </motion.div>
@@ -152,45 +152,56 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* ── RIGHT: Profile Photo ── */}
+          {/* ── RIGHT: 3D Pop-Out Profile Photo ── */}
           <div style={{ order: mobile ? 1 : 2, display: 'flex', justifyContent: 'center' }}>
             <motion.div
-              initial={{ opacity: 0, scale: 0.85, y: 20 }}
+              initial={{ opacity: 0, scale: 0.88, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              style={{ position: 'relative' }}
+              style={{
+                position: 'relative',
+                width: mobile ? 270 : 360,
+                height: mobile ? 270 : 360,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              {/* Decorative rotating ring behind photo */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+              {/* Outer soft ambient radial glow halo */}
+              <div
                 style={{
                   position: 'absolute',
-                  top: -18, left: -18, right: -18, bottom: -18,
+                  inset: mobile ? -20 : -35,
                   borderRadius: '50%',
-                  border: '1.5px dashed var(--grad-border)',
-                  opacity: 0.5,
+                  background: 'radial-gradient(circle, rgba(192, 112, 40, 0.22) 0%, rgba(192, 112, 40, 0.05) 55%, transparent 75%)',
+                  pointerEvents: 'none',
+                  filter: 'blur(20px)',
+                  zIndex: 0,
                 }}
               />
 
-              {/* Main photo container */}
-              <div style={{
-                width: mobile ? 240 : 320,
-                height: mobile ? 240 : 320,
-                borderRadius: '50%',
-                background: 'var(--grad)',
-                padding: 4,
-                boxShadow: '0 0 60px rgba(240,160,80,0.2), 0 20px 60px rgba(0,0,0,0.15)',
-                animation: 'floatY 5s ease-in-out infinite',
-              }}>
-                <div style={{
-                  width: '100%', height: '100%', borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: '4px solid var(--bg)',
-                }}>
-                  <img src={profileUrl} alt="Deepak Kumar" loading="eager"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                </div>
+              {/* 3D Pop-Out Avatar (head extending outside the circle at the top) */}
+              <div
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '100%',
+                  zIndex: 2,
+                  animation: 'floatY 6s ease-in-out infinite',
+                }}
+              >
+                <img
+                  src={profileUrl}
+                  alt="Deepak Kumar"
+                  loading="eager"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    display: 'block',
+                    filter: 'drop-shadow(0 14px 28px rgba(192, 112, 40, 0.2))',
+                  }}
+                />
               </div>
             </motion.div>
           </div>
