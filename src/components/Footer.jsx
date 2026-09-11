@@ -22,108 +22,142 @@ export default function Footer() {
     <footer data-theme="dark" style={{
       background: 'var(--bg-alt)',
       borderTop: '1px solid var(--border)',
-      paddingTop: 56, paddingBottom: 28,
+      paddingTop: 60, paddingBottom: 32,
       position: 'relative', overflow: 'hidden',
     }}>
       {/* Gradient accent line at top */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-        background: 'var(--grad)', opacity: 0.5,
+        background: 'var(--grad)', opacity: 0.6,
       }} />
 
       <div className="container">
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: 48, marginBottom: 44,
-        }}>
-          {/* Brand Column */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+        {/* Main Footer Grid */}
+        <div className="footer-grid">
+          {/* Column 1: Brand & Bio */}
+          <div className="footer-col">
+            <div className="footer-brand-header">
               <div style={{
-                width: 38, height: 38, borderRadius: 11, background: 'var(--grad)',
+                width: 42, height: 42, borderRadius: 12, background: 'var(--grad)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 13, color: '#fff',
-                boxShadow: '0 4px 14px rgba(192,112,40,0.25)',
+                fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: 14, color: '#fff',
+                boxShadow: '0 4px 16px rgba(240,160,80,0.25)', flexShrink: 0,
               }}>DK</div>
-              <span style={{ fontFamily: 'var(--font-head)', fontWeight: 800, fontSize: '1.05rem', color: 'var(--text)' }}>
-                Deepak Kumar
-              </span>
+              <div className="footer-brand-text">
+                <span style={{ fontFamily: 'var(--font-head)', fontWeight: 800, fontSize: '1.2rem', color: 'var(--text)', display: 'block', lineHeight: 1.2 }}>
+                  Deepak Kumar
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--accent)', fontWeight: 600 }}>
+                  Full-Stack Engineer
+                </span>
+              </div>
             </div>
-            <p style={{ color: 'var(--text-3)', fontSize: '0.88rem', lineHeight: 1.7, marginBottom: 20, maxWidth: 280 }}>
-              Full-Stack Engineer & CS student building production-grade web systems and AI-powered platforms.
+            
+            <p className="footer-bio" style={{ color: 'var(--text-3)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: 20, maxWidth: 320 }}>
+              Building modern, scalable web applications, intelligent systems, and seamless user experiences.
             </p>
-            {/* Socials */}
-            <div style={{ display: 'flex', gap: 8 }}>
+
+            {/* Social Icons */}
+            <div className="footer-socials" style={{ display: 'flex', gap: 10, width: '100%' }}>
               {SOCIALS.map(s => (
                 <motion.a key={s.title} href={s.href} target="_blank" rel="noreferrer"
-                  title={s.title} className="icon-btn" style={{ width: 38, height: 38 }}
-                  whileHover={{ scale: 1.12, y: -2 }}>
-                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={s.d} /></svg>
+                  title={s.title} className="icon-btn" style={{ width: 40, height: 40 }}
+                  whileHover={{ scale: 1.1, y: -2 }}>
+                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d={s.d} /></svg>
                 </motion.a>
               ))}
             </div>
           </div>
 
-          {/* Quick Links Column */}
-          <div>
-            <h4 style={{
-              fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700,
-              color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.14em',
-              marginBottom: 18,
-            }}>Quick Links</h4>
-            <nav style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {/* Column 2: Navigation Links (Stacked vertically) */}
+          <div className="footer-col">
+            <h4 className="footer-heading">
+              <span>✦</span> Quick Links
+            </h4>
+            <nav className="footer-links-list">
               {NAV_LINKS.map(l => (
-                <button key={l.id} onClick={() => go(l.id)}
+                <motion.button key={l.id} onClick={() => go(l.id)}
+                  whileHover={{ x: 5 }}
                   style={{
-                    textAlign: 'left', fontFamily: 'var(--font-body)',
-                    fontSize: '0.88rem', color: 'var(--text-2)',
-                    transition: 'color 0.2s',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '0.92rem', color: 'var(--text-2)',
+                    transition: 'color 0.2s', cursor: 'pointer',
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    width: 'fit-content',
                   }}
                   onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
                   onMouseLeave={e => e.currentTarget.style.color = 'var(--text-2)'}
-                >{l.label}</button>
+                >
+                  <span style={{ fontSize: 10, opacity: 0.6, color: 'var(--accent)' }}>›</span>
+                  {l.label}
+                </motion.button>
               ))}
             </nav>
           </div>
 
-          {/* Contact Column */}
-          <div>
-            <h4 style={{
-              fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700,
-              color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.14em',
-              marginBottom: 18,
-            }}>Get In Touch</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <a href="mailto:dk21230621@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: 9, color: 'var(--text-2)', fontSize: '0.85rem', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
-                onMouseLeave={e => e.currentTarget.style.color = 'var(--text-2)'}>
-                <span style={{ fontSize: 14 }}>✉️</span> dk21230621@gmail.com
+          {/* Column 3: Contact Details (Stacked vertically) */}
+          <div className="footer-col">
+            <h4 className="footer-heading">
+              <span>✦</span> Get In Touch
+            </h4>
+            <div className="footer-contact-list">
+              <a href="mailto:dk21230621@gmail.com"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 10,
+                  color: 'var(--text-2)', fontSize: '0.9rem', transition: 'all 0.2s',
+                  width: 'fit-content',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.transform = 'translateX(4px)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-2)'; e.currentTarget.style.transform = 'translateX(0)' }}>
+                <span style={{
+                  width: 32, height: 32, borderRadius: 8, background: 'var(--bg-card)',
+                  border: '1px solid var(--border)', display: 'flex', alignItems: 'center',
+                  justifyContent: 'center', fontSize: 14, flexShrink: 0,
+                }}>✉️</span>
+                dk21230621@gmail.com
               </a>
-              <a href="tel:+917992054663" style={{ display: 'flex', alignItems: 'center', gap: 9, color: 'var(--text-2)', fontSize: '0.85rem', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
-                onMouseLeave={e => e.currentTarget.style.color = 'var(--text-2)'}>
-                <span style={{ fontSize: 14 }}>📞</span> +91 7992054663
+
+              <a href="tel:+917992054663"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 10,
+                  color: 'var(--text-2)', fontSize: '0.9rem', transition: 'all 0.2s',
+                  width: 'fit-content',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.transform = 'translateX(4px)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-2)'; e.currentTarget.style.transform = 'translateX(0)' }}>
+                <span style={{
+                  width: 32, height: 32, borderRadius: 8, background: 'var(--bg-card)',
+                  border: '1px solid var(--border)', display: 'flex', alignItems: 'center',
+                  justifyContent: 'center', fontSize: 14, flexShrink: 0,
+                }}>📞</span>
+                +91 7992054663
               </a>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 9, color: 'var(--text-2)', fontSize: '0.85rem' }}>
-                <span style={{ fontSize: 14 }}>📍</span> Bhopal, M.P., India
-              </span>
+
+              <div className="footer-contact-item" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                color: 'var(--text-2)', fontSize: '0.9rem', width: 'fit-content',
+              }}>
+                <span style={{
+                  width: 32, height: 32, borderRadius: 8, background: 'var(--bg-card)',
+                  border: '1px solid var(--border)', display: 'flex', alignItems: 'center',
+                  justifyContent: 'center', fontSize: 14, flexShrink: 0,
+                }}>📍</span>
+                Bhopal, Madhya Pradesh, India
+              </div>
             </div>
           </div>
         </div>
 
         {/* Divider */}
-        <div style={{ height: 1, background: 'var(--border)', marginBottom: 22 }} />
+        <div style={{ width: '100%', height: 1, background: 'var(--border)', marginBottom: 24 }} />
 
         {/* Bottom bar */}
-        <div style={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12,
-        }}>
-          <p style={{ color: 'var(--text-3)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>
-            © {new Date().getFullYear()} Deepak Kumar.
+        <div className="footer-bottom">
+          <p style={{ color: 'var(--text-3)', fontSize: '0.84rem', fontFamily: 'var(--font-mono)' }}>
+            © {new Date().getFullYear()} Deepak Kumar. All rights reserved.
           </p>
-          <p style={{ color: 'var(--text-3)', fontSize: '0.78rem', fontFamily: 'var(--font-mono)', display: 'flex', alignItems: 'center', gap: 5 }}>
-            Made with <motion.span animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 0.7, repeat: Infinity, repeatDelay: 1 }} style={{ display: 'inline-block' }}>❤️</motion.span> in India
+          <p style={{ color: 'var(--text-3)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            Designed &amp; Built with <motion.span animate={{ scale: [1, 1.35, 1] }} transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 1 }} style={{ display: 'inline-block' }}>❤️</motion.span> in India
           </p>
         </div>
       </div>

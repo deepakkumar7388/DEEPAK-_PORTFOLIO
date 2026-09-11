@@ -192,63 +192,6 @@ export default function Hero() {
                     style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                 </div>
               </div>
-
-              {/* Floating badge — top right */}
-              <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                style={{
-                  position: 'absolute', top: mobile ? 0 : 10, right: mobile ? -10 : -20,
-                  background: 'var(--bg-card)', border: '1px solid var(--border)',
-                  borderRadius: 14, padding: '10px 14px', boxShadow: 'var(--shadow-md)',
-                  backdropFilter: 'blur(16px)',
-                  display: 'flex', alignItems: 'center', gap: 8,
-                }}
-              >
-                <span style={{ fontSize: 18 }}>🏆</span>
-                <div>
-                  <div style={{ fontFamily: 'var(--font-head)', fontWeight: 800, fontSize: 14, color: 'var(--text)', lineHeight: 1 }}>81%</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, color: 'var(--text-3)', textTransform: 'uppercase' }}>NPTEL</div>
-                </div>
-              </motion.div>
-
-              {/* Floating badge — bottom left */}
-              <motion.div
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                style={{
-                  position: 'absolute', bottom: mobile ? 0 : 20, left: mobile ? -10 : -30,
-                  background: 'var(--bg-card)', border: '1px solid var(--border)',
-                  borderRadius: 14, padding: '10px 14px', boxShadow: 'var(--shadow-md)',
-                  backdropFilter: 'blur(16px)',
-                  display: 'flex', alignItems: 'center', gap: 8,
-                }}
-              >
-                <span style={{ fontSize: 18 }}>☁️</span>
-                <div>
-                  <div style={{ fontFamily: 'var(--font-head)', fontWeight: 800, fontSize: 14, color: 'var(--text)', lineHeight: 1 }}>AWS</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, color: 'var(--text-3)', textTransform: 'uppercase' }}>Certified</div>
-                </div>
-              </motion.div>
-
-              {/* Floating badge — bottom right */}
-              <motion.div
-                animate={{ y: [0, -4, 0] }}
-                transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                style={{
-                  position: 'absolute', bottom: mobile ? -10 : -5, right: mobile ? 20 : 15,
-                  background: 'var(--bg-card)', border: '1px solid var(--border)',
-                  borderRadius: 14, padding: '10px 14px', boxShadow: 'var(--shadow-md)',
-                  backdropFilter: 'blur(16px)',
-                  display: 'flex', alignItems: 'center', gap: 8,
-                }}
-              >
-                <span style={{ fontSize: 18 }}>🚀</span>
-                <div>
-                  <div style={{ fontFamily: 'var(--font-head)', fontWeight: 800, fontSize: 14, color: 'var(--text)', lineHeight: 1 }}>4+</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, color: 'var(--text-3)', textTransform: 'uppercase' }}>Projects</div>
-                </div>
-              </motion.div>
             </motion.div>
           </div>
         </div>
